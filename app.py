@@ -1,5 +1,9 @@
 import streamlit as st
 import sqlite3
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib
+matplotlib.use('Agg')
 
 #Database
 conn = sqlite3.connect('inventory.db')
@@ -22,16 +26,18 @@ def view_all_inventory():
     return data
 
 def view_all_items():
-    c.execute('SELECT DISTINCT InventoryName from inventorytable')
+    c.execute('SELECT DISTINCT InventoryName FROM inventorytable')
     data = c.fetchall()
     return data
 
 def get_item_by_name(InventoryName):
-    c.execute('SELECT * from inventorytable WHERE InventoryName="{}"'.format(InventoryName))
+    c.execute('SELECT * FROM inventorytable WHERE InventoryName="{}"'.format(InventoryName))
     data = c.fetchall()
     return data
 
-
+def delete_data(InventoryName):
+    c.execute('DELETE FROM inventorytable WHERE InventoryName="{}"'.format(InventoryName))
+    conn.commit()
 
 # Template on Layout
 template = """
@@ -88,6 +94,26 @@ elif choice == "Add Inventory":
 
 elif choice == "Search":
     st.subheader("Search Inventory Items")
+    search_term = st.text_input('Enter Search Term')
+    if st.button("Search"):
+        search_result = get_item_by_name(search_term)
+        for i in search_result:
+            Inv_Name = i[0]
+            Inv_details = i[1]
+            Inv_date = i[2]
+            st.markdown(template.format(Inv_Name, Inv_details, Inv_date), unsafe_allow_html=True)
+
 
 elif choice == "Manage Inventory":
     st.subheader("Manage Inventory Items")
+
+    result = view_all_inventory()
+    clean_db = pd.DataFrame(result,columns=['Inventory Name', 'Inventory Details', 'Creation Date'])
+    st.dataframe(clean_db)
+    
+    unique_items = [i[0] for i in view_all_items()]
+    delete_inventory_by_title = st.selectbox('Item Selection',unique_items)
+
+    if st.button("Delete"):
+        delete_data(delete_inventory_by_title)
+        st.warning("Deleted: '{}'".format(delete_inventory_by_title))
