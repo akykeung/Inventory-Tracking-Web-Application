@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
+import calendar
 
 #Database
 conn = sqlite3.connect('inventory.db')
@@ -43,6 +44,11 @@ def update_data(InventoryName, InventoryDetails, CreationDate, CurrentInventory)
     c.execute(f'UPDATE inventorytable SET InventoryName ="{InventoryName}", InventoryDetails="{InventoryDetails}", CreationDate ="{CreationDate}" WHERE InventoryName = "{CurrentInventory}"')
     conn.commit()
 
+def inventory_db():
+    result = view_all_inventory()
+    clean_db = pd.DataFrame(result,columns=['Inventory Name', 'Inventory Details', 'Creation Date'])
+    return clean_db
+
 # Template on Layout
 template = """
 <div style="background-color:#55aaaa;padding:10px;border-radius:10px;margin:20px;">
@@ -56,13 +62,13 @@ def main():
 
     st.title("Inventory Tracking")
 
-    menu = ["Home", "View Inventory", "Add Inventory", "Search", "Manage Inventory"]
+    menu = ["Home", "View Metrics", "Add Inventory", "Search", "Manage Inventory"]
     #Creating menu bar at the side of the application
     choice = st.sidebar.selectbox("Menu", menu)
 
     if choice == "Home":
         #Where all inventory tracking exist
-        st.subheader("Home")
+        st.subheader("Homepage")
         result = view_all_inventory()
         #Reformatting list layout
         for i in result:
@@ -71,19 +77,22 @@ def main():
             Inv_date = i[2]
             st.markdown(template.format(Inv_Name, Inv_details, Inv_date), unsafe_allow_html=True)
 
-    elif choice == "View Inventory":
-        st.subheader("View Inventory Items")
-        #Calling Function for all items
-        all_items = [i[0] for i in view_all_items()]
-        inventory_list = st.sidebar.selectbox('View Inventory',all_items)
-        inventory_result = get_item_by_name(inventory_list)
-        for i in inventory_result:
-            Inv_Name = i[0]
-            Inv_details = i[1]
-            Inv_date = i[2]
-            st.markdown(template.format(Inv_Name, Inv_details, Inv_date), unsafe_allow_html=True)
-    
+    elif choice == "View Metrics":
+        st.subheader("View Metrics on your Inventory")
 
+        st.dataframe(inventory_db())
+        new_df = inventory_db()
+
+        fig, ax = plt.subplots()
+
+        st.subheader("Inventory Levels Over Time")
+        new_df["Creation Date"].value_counts().plot(kind='bar')
+        max_inventory_month = pd.to_datetime(new_df["Creation Date"]).dt.strftime("%b").value_counts()
+        month_names = calendar.month_abbr[1:]
+        max_inventory_month = max_inventory_month.reindex(month_names, fill_value=0)
+        max_inventory_month.plot(kind='bar')
+        st.set_option('deprecation.showPyplotGlobalUse', False)
+        st.pyplot() 
 
     elif choice == "Add Inventory":
         st.subheader("Add Inventory Items")
@@ -99,22 +108,22 @@ def main():
 
     elif choice == "Search":
         st.subheader("Search Inventory Items")
-        search_term = st.text_input('Enter Search Term')
+        search_items = [i[0] for i in view_all_items()]
+        search_term = st.multiselect('Which Inventory Item Would Like to Open?', search_items)
         if st.button("Search"):
-            search_result = get_item_by_name(search_term)
-            for i in search_result:
-                Inv_Name = i[0]
-                Inv_details = i[1]
-                Inv_date = i[2]
-                st.markdown(template.format(Inv_Name, Inv_details, Inv_date), unsafe_allow_html=True)
+            #search_result = get_item_by_name(search_term)
+            for i in search_term:
+                search_result = get_item_by_name(i)
+                for i in search_result:
+                    Inv_Name = i[0]
+                    Inv_details = i[1]
+                    Inv_date = i[2]
+                    st.markdown(template.format(Inv_Name, Inv_details, Inv_date), unsafe_allow_html=True)
 
 
     elif choice == "Manage Inventory":
         st.subheader("Manage Inventory Items")
-
-        result = view_all_inventory()
-        clean_db = pd.DataFrame(result,columns=['Inventory Name', 'Inventory Details', 'Creation Date'])
-        st.dataframe(clean_db)
+        st.dataframe(inventory_db())
         unique_items = [i[0] for i in view_all_items()]
 
         inventory_by_title = st.selectbox('Item Selection',unique_items)
@@ -139,18 +148,6 @@ def main():
                     st.warning("Deleted: '{}'".format(inventory_by_title))
         except:
             st.write('No Items to Update or Delete')
-
-
-
-        if st.checkbox("Metrics"):
-            new_df = clean_db
-            new_df['Length'] = new_df['Inventory Details'].str.len()
-            st.dataframe(new_df)
-
-            st.subheader("Inventory Levels Over Time")
-            new_df["Creation Date"].value_counts().plot(kind='bar')
-            st.set_option('deprecation.showPyplotGlobalUse', False)
-            st.pyplot()
 
 if __name__ == '__main__':
     main()
