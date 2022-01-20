@@ -28,6 +28,7 @@ Users can delete inventory items by navigating to the **Manage Inventory Page** 
 
 ## Exporting inventory data as CSV
 When users upload inventory details on to the application, the data can be extracted through an export of the data from the database from navigating to the **View Metrics Page** as shown. From there simply click **Download data as CSV**:
+
 ![Export to CSV Functionality](/Images/screenshot_export.png)
 
 # Extra Features
