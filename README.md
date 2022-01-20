@@ -13,7 +13,7 @@ In creating this application, the following requirements were considered to ensu
 3. Delete Them
 4. View a list of them
 
-To better organize and for future flexibility in adding more pages and features, all pages of this applications can be seamlessly accessed using the dropdown feature on the left. ![Page Access](/images/screenshot_dropdown.png)
+To better organize and for future flexibility in adding more pages and features, all pages of this applications can be seamlessly accessed using the dropdown feature on the left. ![Page Access](/Images/screenshot_dropdown.png)
 
 ## Creating inventory items
 Users can create inventory items by navigating to the **Add Inventory Page** where details on the **inventory name**, **inventory details** and **date of creation** can be added. Once details are provided, simply click **Add**. ![Add Inventory](screenshot_add.png)
