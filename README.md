@@ -19,14 +19,15 @@ To better organize and for future flexibility in adding more pages and features,
 Users can create inventory items by navigating to the **Add Inventory Page** where details on the **inventory name**, **inventory details** and **date of creation** can be added. Once details are provided, simply click **Add**. ![Add Inventory](/Images/screenshot_add.png)
 
 ## Editing inventory items
-Users can edit inventory items by navigating to the **Manage Inventory Page** where the item can be selected and details on the **inventory name**, **inventory details** and **date of creation** can be adjusted. To update simply click **Update**. ![Edit Inventory](/Images/screenshot_edit.png)
+Users can edit inventory items by navigating to the **Manage Inventory Page** where the item can be selected and details on the **inventory name**, **inventory details** and **date of creation** can be edited. To update simply click **Update**. 
+![Edit Inventory](/Images/screenshot_edit.png)
 
 
 ## Deleting inventory items
 Users can delete inventory items by navigating to the **Manage Inventory Page** where the item can be selected and to delete, simply click **Delete** to remove the item. ![Delete Inventory](/Images/screenshot_delete.png)
 
 ## Exporting inventory data as CSV
-When users upload inventory details on to the application, the data can be extracted through an export of the data from the database from navigating to the **View Metrics Page** as shown: ![Export to CSV Functionality](/Images/screenshot_export.png)
+When users upload inventory details on to the application, the data can be extracted through an export of the data from the database from navigating to the **View Metrics Page** as shown. From there simply click **Download data as CSV**: ![Export to CSV Functionality](/Images/screenshot_export.png)
 
 # Extra Features
 Further enhancements to the inventory tracking experience were made including adding a **search feature** and a provided page for which more insights can be derived in the **View Metrics Page**.
@@ -70,9 +71,10 @@ pip install matplotlib streamlit pandas
 ```
 
 More instructions to download the following libraries for troubleshooting:
-1. [Streamlit](https://docs.streamlit.io/library/get-started/installation)
-2. [matplotlib](https://matplotlib.org/stable/users/installing/index.html)
-3. [pandas](https://pandas.pydata.org/getting_started.html)
+- [Streamlit](https://docs.streamlit.io/library/get-started/installation)
+- [matplotlib](https://matplotlib.org/stable/users/installing/index.html)
+- [pandas](https://pandas.pydata.org/getting_started.html)
+- [sqlite](https://www.servermania.com/kb/articles/install-sqlite/)
 
 3. Once cloned, run the `app.py` python file. To run the application, open the terminal of your IDE and type the following command `streamlit run app.py`. You should be able to access now the inventory tracking application using local host. ![Local Web Application](/Images/screenshot_local.png)
 
