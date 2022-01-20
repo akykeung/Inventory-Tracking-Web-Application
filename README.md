@@ -27,7 +27,7 @@ Users can edit inventory items by navigating to the **Manage Inventory Page** wh
 Users can delete inventory items by navigating to the **Manage Inventory Page** where the item can be selected and to delete, simply click **Delete** to remove the item. ![Delete Inventory](/Images/screenshot_delete.png)
 
 ## Exporting inventory data as CSV
-When users upload inventory details on to the application, the data can be extracted through an export of the data from the database from navigating to the **View Metrics Page** as shown. From there simply click **Download data as CSV**: 
+When users upload inventory details on to the application, the data can be extracted through an export of the data from the database from navigating to the **View Metrics Page** as shown. From there simply click **Download data as CSV**:
 ![Export to CSV Functionality](/Images/screenshot_export.png)
 
 # Extra Features
@@ -58,9 +58,7 @@ The inventory tracking application can be run using the link: [Cool Inventory Tr
 If you wish to run this application locally, the following instructions will need to be followed in the next section.
 
 ## Running Locally
-1. To run the application locally, clone the repository on your local machine using the following command:
- 
-`git clone: https://github.com/akykeung/Inventory-Tracking-Web-Application.git` using an IDE of your choice (ex. Visual Studios). If you don't have git on your machine, you can download git using the following link: 
+1. To run the application locally, clone the repository on your local machine using the following command: `git clone: https://github.com/akykeung/Inventory-Tracking-Web-Application.git` using an IDE of your choice (ex. Visual Studios). If you don't have git on your machine, you can download git using the following link: 
 [git Download](https://git-scm.com/)
 
 2. Once cloned, navigate to the folder of where it is cloned and open the file: `app.py`. This application was built using Python. If Python is not installed on your local machine, you can download the latest version of Python in this link: 
